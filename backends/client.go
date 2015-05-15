@@ -4,12 +4,13 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/kelseyhightower/confd/backends/consul"
-	"github.com/kelseyhightower/confd/backends/env"
-	"github.com/kelseyhightower/confd/backends/etcd"
-	"github.com/kelseyhightower/confd/backends/redis"
-	"github.com/kelseyhightower/confd/backends/zookeeper"
-	"github.com/kelseyhightower/confd/log"
+	"github.com/jimonreal/confd/backends/consul"
+	"github.com/jimonreal/confd/backends/couchbase"
+	"github.com/jimonreal/confd/backends/env"
+	"github.com/jimonreal/confd/backends/etcd"
+	"github.com/jimonreal/confd/backends/redis"
+	"github.com/jimonreal/confd/backends/zookeeper"
+	"github.com/jimonreal/confd/log"
 )
 
 // The StoreClient interface is implemented by objects that can retrieve
@@ -26,6 +27,7 @@ func New(config Config) (StoreClient, error) {
 	}
 	backendNodes := config.BackendNodes
 	log.Info("Backend nodes set to " + strings.Join(backendNodes, ", "))
+	log.Info("Edited..")
 	switch config.Backend {
 	case "consul":
 		return consul.New(config.BackendNodes, config.Scheme,
@@ -39,6 +41,8 @@ func New(config Config) (StoreClient, error) {
 		return zookeeper.NewZookeeperClient(backendNodes)
 	case "redis":
 		return redis.NewRedisClient(backendNodes)
+	case "couchbase":
+		return couchbase.NewCouchbaseClient(backendNodes)
 	case "env":
 		return env.NewEnvClient()
 	}

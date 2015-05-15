@@ -12,9 +12,9 @@ import (
 	"strings"
 
 	"github.com/BurntSushi/toml"
-	"github.com/kelseyhightower/confd/backends"
-	"github.com/kelseyhightower/confd/log"
-	"github.com/kelseyhightower/confd/resource/template"
+	"github.com/jimonreal/confd/backends"
+	"github.com/jimonreal/confd/log"
+	"github.com/jimonreal/confd/resource/template"
 )
 
 var (
@@ -144,6 +144,8 @@ func initConfig() error {
 			}
 		case "redis":
 			config.BackendNodes = []string{"127.0.0.1:6379"}
+		case "couchbase":
+			config.BackendNodes = []string{"http://127.0.0.1:8091"}
 		}
 	}
 	// Initialize the storage client
@@ -153,6 +155,7 @@ func initConfig() error {
 		unsupportedBackends := map[string]bool{
 			"zookeeper": true,
 			"redis":     true,
+			"couchbase": true,
 		}
 
 		if unsupportedBackends[config.Backend] {
